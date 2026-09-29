@@ -1,0 +1,565 @@
+{
+  "info": {
+    "name": "FitTrack AI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "67fbd4c5-a4a8-4b6f-8922-7531bbac9270",
+    "description": "AI FitTrack API - register/login, then run Workouts and AI requests. Token auto-saves after Register/Login."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "workoutId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j=pm.response.json();if(j.token){pm.collectionVariables.set(\"token\",j.token);}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sathya\",\n  \"email\": \"sathya@gmail.com\",\n  \"password\": \"Sathya@01\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": ""
+          },
+          "id": "81adaa06-85e9-4323-b67f-74f295912a90"
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j=pm.response.json();if(j.token){pm.collectionVariables.set(\"token\",j.token);}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"sathya@gmail.com\",\n  \"password\": \"Sathya@01\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": ""
+          },
+          "id": "b7ee1c5f-a00a-4f15-8fb2-73f79d35df5b"
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "profile"
+              ]
+            },
+            "description": ""
+          },
+          "id": "cdf518e5-fd88-4211-ba41-62e7d7ab740d"
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sathya\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "profile"
+              ]
+            },
+            "description": ""
+          },
+          "id": "839fc050-baa9-48ec-88c5-15d9dba47ab6"
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"Sathya@01\",\n  \"newPassword\": \"Sathya@02\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": ""
+          },
+          "id": "16df7d30-4832-45c5-aeba-6fa00f2ede8e"
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": ""
+          },
+          "id": "0be0ff33-cc60-401b-9022-f0dc2b330db2"
+        }
+      ],
+      "id": "00c9b745-2940-48b0-be67-7c996ee2460e"
+    },
+    {
+      "name": "Workouts",
+      "item": [
+        {
+          "name": "Add Workout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j=pm.response.json();if(j.data&&j.data._id){pm.collectionVariables.set(\"workoutId\",j.data._id);}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workoutName\": \"Evening Jog\",\n  \"category\": \"Running\",\n  \"duration\": 30,\n  \"caloriesBurned\": 350,\n  \"workoutDate\": \"2026-06-26\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/workouts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workouts"
+              ]
+            },
+            "description": ""
+          },
+          "id": "9d5ec7f7-7d5b-4e99-b3f3-0c5c05504782"
+        },
+        {
+          "name": "Get All Workouts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/workouts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workouts"
+              ]
+            },
+            "description": ""
+          },
+          "id": "d58fda18-d896-44bf-8b9c-ae74137d82e2"
+        },
+        {
+          "name": "Search Workouts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/workouts/search?name=jog&category=Running&date=2026-06-26",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workouts",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "jog"
+                },
+                {
+                  "key": "category",
+                  "value": "Running"
+                },
+                {
+                  "key": "date",
+                  "value": "2026-06-26"
+                }
+              ]
+            },
+            "description": ""
+          },
+          "id": "7db13337-6c0b-48dc-8665-60af8743a66c"
+        },
+        {
+          "name": "Get Workout By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/workouts/{{workoutId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workouts",
+                "{{workoutId}}"
+              ]
+            },
+            "description": ""
+          },
+          "id": "8b0a45c7-c4ac-43f7-82ec-b2dc1de80b58"
+        },
+        {
+          "name": "Update Workout",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workoutName\": \"Evening Jog\",\n  \"category\": \"Running\",\n  \"duration\": 60,\n  \"caloriesBurned\": 650,\n  \"workoutDate\": \"2026-06-26\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/workouts/{{workoutId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workouts",
+                "{{workoutId}}"
+              ]
+            },
+            "description": ""
+          },
+          "id": "d10b8186-4b64-4e42-a8d1-b120dfddadcb"
+        },
+        {
+          "name": "Delete Workout",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/workouts/{{workoutId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "workouts",
+                "{{workoutId}}"
+              ]
+            },
+            "description": ""
+          },
+          "id": "558e9251-6473-405d-aed7-6b1c339b6828"
+        }
+      ],
+      "id": "8293a442-a543-4705-b4bf-b0c824f7e48f"
+    },
+    {
+      "name": "AI",
+      "item": [
+        {
+          "name": "Workout Recommendation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": 22,\n  \"fitnessGoal\": \"Weight Loss\",\n  \"experience\": \"Beginner\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/workout-recommendation",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ai",
+                "workout-recommendation"
+              ]
+            },
+            "description": ""
+          },
+          "id": "baeb81a3-9f76-47a2-a1f5-8278e23cd2e3"
+        },
+        {
+          "name": "Fitness Insights",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"totalWorkouts\": 18,\n  \"averageDuration\": 45,\n  \"totalCaloriesBurned\": 6200\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ai/fitness-insights",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ai",
+                "fitness-insights"
+              ]
+            },
+            "description": ""
+          },
+          "id": "f019a574-3d5e-42a6-8db4-39533881b332"
+        }
+      ],
+      "id": "ddadb0f2-fe98-4d49-9bff-0b5adfe001c7"
+    }
+  ]
+}
